@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Edit Product</h1>
+            <form method="POST" action="{{ url_for('edit_product', product_id=product.id) }}" enctype="multipart/form-data" class="box">
+                <!-- Product Name -->
+                <div class="field">
+                    <label class="label" for="name">Name</label>
+                    <div class="control">
+                        <input class="input" type="text" id="name" name="name" value="{{ product.name }}" required>
+                    </div>
+                </div>
+
+                <!-- Product Description -->
+                <div class="field">
+                    <label class="label" for="description">Description</label>
+                    <div class="control">
+                        <textarea class="textarea" id="description" name="description" required>{{ product.description }}</textarea>
+                    </div>
+                </div>
+
+                <!-- Product Price -->
+                <div class="field">
+                    <label class="label" for="price">Price</label>
+                    <div class="control">
+                        <input class="input" type="number" id="price" name="price" step="0.01" value="{{ product.price }}" required>
+                    </div>
+                </div>
+
+                <!-- Product Image -->
+                <div class="field">
+                    <label class="label" for="image">Image</label>
+                    <div class="control">
+                        <input class="file-input" type="file" id="image" name="image" accept="image/*">
+                    </div>
+                    <!-- Show the current image -->
+                    <p class="help">Current Image:</p>
+                    <figure class="image is-128x128">
+                        <img src="{{ url_for('static', filename=product.image_url.split('static/')[-1]) }}" alt="{{ product.name }}">
+                    </figure>
+                </div>
+
+                <!-- Availability -->
+                <div class="field">
+                    <label class="checkbox">
+                        <input type="checkbox" name="is_available" id="is_available" {% if product.is_available %}checked{% endif %}>
+                        Available
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-primary">Update Product</button>
+                    </div>
+                </div>
+          

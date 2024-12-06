@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Cart{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title has-text-centered">Your Cart</h1>
+        <div class="box">
+            {% if cart_items %}
+            <table class="table is-fullwidth is-bordered">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>${{ item.product.price }}</td>
+                        <td>
+                            <form method="POST" action="{{ url_for('update_cart', cart_item_id=item.id) }}">
+                                <input class="input" type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                                <button class="button is-small is-info" type="submit">Update</button>
+                            </form>
+                        </td>
+                        <td>${{ item.product.price * item.quantity }}</td>
+                        <td>
+                            <form method="POST" action="{{ url_for('remove_from_cart', cart_item_id=item.id) }}">
+                                <button class="button is-small is-danger">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="has-text-centered has-text-grey">Your cart is empty.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
